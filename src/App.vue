@@ -1,7 +1,13 @@
 <template>
     <div class="app-container">
         <!-- 这是header组件区域 -->
-        <mt-header fixed title="黑马程序员 · Vue项目"></mt-header>
+        <!-- <mt-header fixed title="黑马程序员 · Vue项目"></mt-header> -->
+		<mt-header fixed title="黑马程序员 · Vue项目">
+			<router-link to="/" slot="left">
+				<mt-button icon="back" @click="goBack" ref="back" v-show="backFlag">返回</mt-button>
+			</router-link>
+		</mt-header>
+
         <!-- 这是中间的router-view区域 -->
 		<transition mode="out-in">
 			<router-view></router-view>
@@ -30,7 +36,16 @@
 
 <script>
 export default {
-
+	data() {
+		return {
+			backFlag: true,
+		}
+	},
+	methods: {
+		goBack() {
+			this.$router.back
+		}
+	}
 }
 </script>
 

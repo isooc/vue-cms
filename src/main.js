@@ -11,7 +11,7 @@ Vue.use(VuePreview)
 
 // 过滤器--时间
 import moment from 'moment'
-Vue.filter('dataFormat', function (dataStr, pattern='YYYY-MM-DD HH-mm-ss') {
+Vue.filter('dataFormat', function (dataStr, pattern='YYYY-MM-DD HH:mm:ss') {
     return moment(dataStr).format(pattern)
 })
 

@@ -1,53 +1,55 @@
 <template>
     <div class="goods-list">
-        <div class="goods-item">
-            <img src="https://img14.360buyimg.com/n7/jfs/t1/41069/14/5268/224755/5ceb4b2dE509aca2c/c57bbc4a52f3f8ee.jpg" alt="">
-            <h1 class="title">小米（Mi）小米Note 16G双网通版</h1>
+        <!-- 使用编程式导航 router.push -->
+        <div class="goods-item" v-for="item in goodList" :key="item.id" @click="detail(item.id)">
+            <img :src="item.img_url" alt="">
+            <h1 class="title">{{ item.title }}</h1>
             <div class="info">
                 <p class="price">
-                    <span class="now">￥999</span>
-                    <span class="old">￥1200</span>
+                    <span class="now">￥{{ item.sell_price }}</span>
+                    <span class="old">￥{{ item.market_price }}</span>
                 </p>
                 <p class="sell">
                     <span>热卖中</span>
-                    <span>剩60件</span>
+                    <span>剩{{ item.stock_quantity }}件</span>
                 </p>
             </div>
         </div>
-        <div class="goods-item">
-            <img src="https://img14.360buyimg.com/n7/jfs/t1/41069/14/5268/224755/5ceb4b2dE509aca2c/c57bbc4a52f3f8ee.jpg" alt="">
-            <h1 class="title">小米（Mi）小米Note 16G双网通版</h1>
-            <div class="info">
-                <p class="price">
-                    <span class="now">￥999</span>
-                    <span class="old">￥1200</span>
-                </p>
-                <p class="sell">
-                    <span>热卖中</span>
-                    <span>剩60件</span>
-                </p>
-            </div>
-        </div>
-        <div class="goods-item">
-            <img src="https://img14.360buyimg.com/n7/jfs/t1/41069/14/5268/224755/5ceb4b2dE509aca2c/c57bbc4a52f3f8ee.jpg" alt="">
-            <h1 class="title">小米（Mi）小米Note 16G双网通版</h1>
-            <div class="info">
-                <p class="price">
-                    <span class="now">￥999</span>
-                    <span class="old">￥1200</span>
-                </p>
-                <p class="sell">
-                    <span>热卖中</span>
-                    <span>剩60件</span>
-                </p>
-            </div>
-        </div>
+        <mt-button type="danger" size="large" @click="getMore" v-if="flag">加载更多</mt-button>
     </div>
 </template>
 
 <script>
 export default {
-    
+    data() {
+        return {
+            pageSize: 1,
+            goodList: [],
+            flag: true
+        }
+    },
+    created() {
+        this.getGoodsList()
+    },
+    methods: {
+        getGoodsList() {
+            this.$http.get('api/getgoods?pageindex=' + this.pageSize).then(res => {
+                if(res.body.status === 0) {
+                    this.goodList = this.goodList.concat(res.body.message)
+                }
+                if(res.body.message.length < 10) {
+                    this.flag = false
+                }
+            })
+        },
+        getMore() {
+            this.pageSize++
+            this.getGoodsList()
+        },
+        detail(id) {
+            this.$router.push({ name: 'goodsInfo', params: { id }})
+        }
+    }
 }
 </script>
 
