@@ -93,6 +93,9 @@ export default {
         addToShopCar() {
             // 加入购物车
             this.ballFlag = !this.ballFlag
+            // 产生数据
+            var goodsInfo = { id: this.id, count: this.selectCount, price: this.goodsInfo.sell_price, selected: true }
+            this.$store.commit('addCarCount', goodsInfo)
         },
         beforeEnter(el) {
             el.style.transform = 'translate(0, 0)'

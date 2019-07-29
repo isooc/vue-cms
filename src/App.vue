@@ -3,9 +3,9 @@
         <!-- 这是header组件区域 -->
         <!-- <mt-header fixed title="黑马程序员 · Vue项目"></mt-header> -->
 		<mt-header fixed title="黑马程序员 · Vue项目">
-			<router-link to="/" slot="left">
-				<mt-button icon="back" @click="goBack" ref="back" v-show="backFlag">返回</mt-button>
-			</router-link>
+			<span slot="left">
+				<mt-button icon="back" @click="goBack" v-show="backFlag">返回</mt-button>
+			</span>
 		</mt-header>
 
         <!-- 这是中间的router-view区域 -->
@@ -23,12 +23,12 @@
 				<span class="mui-tab-label">会员</span>
 			</router-link>
 			<router-link class="mui-tab-item123" to="/shopcar">
-				<span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">0</span></span>
+				<span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">{{ $store.getters.getAllCount }}</span></span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
 			<router-link class="mui-tab-item123" to="/search">
 				<span class="mui-icon mui-icon-search"></span>
-				<span class="mui-tab-label">设置</span>
+				<span class="mui-tab-label">搜索</span>
 			</router-link>
 		</nav>
     </div>
@@ -38,12 +38,25 @@
 export default {
 	data() {
 		return {
-			backFlag: true,
+			backFlag: false,
 		}
+	},
+	created() {
+		this.backFlag = this.$route.path === '/home' ? false : true
+		// console.log(this.$route.path);		
 	},
 	methods: {
 		goBack() {
-			this.$router.back
+			this.$router.go(-1)
+		}
+	},
+	watch: {
+		'$route.path': function(newVal) {
+			if(newVal == '/home') {
+				this.backFlag = false
+			} else {
+				this.backFlag = true
+			}
 		}
 	}
 }
