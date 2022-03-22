@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
         <!-- 这是header组件区域 -->
-        <!-- <mt-header fixed title="黑马程序员 · Vue项目"></mt-header> -->
-		<mt-header fixed title="黑马程序员 · Vue项目">
+        <!-- <mt-header fixed title="Vue项目"></mt-header> -->
+		<mt-header fixed title="Vue项目">
 			<span slot="left">
 				<mt-button icon="back" @click="goBack" v-show="backFlag">返回</mt-button>
 			</span>
